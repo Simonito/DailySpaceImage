@@ -1,4 +1,4 @@
-package com.example.dailyspaceimage.ui.theme
+package com.example.dailyspaceimage.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

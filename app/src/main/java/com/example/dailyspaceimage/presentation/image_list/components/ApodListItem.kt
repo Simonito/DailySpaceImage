@@ -1,8 +1,10 @@
-package com.example.dailyspaceimage
+package com.example.dailyspaceimage.presentation.image_list.components
 
+import android.text.style.ClickableSpan
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,25 +28,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
-import com.example.dailyspaceimage.model.APOD
+import com.example.dailyspaceimage.data.remote.dto.toApod
+import com.example.dailyspaceimage.domain.model.Apod
 import com.example.dailyspaceimage.repo.TestingAPODRepo
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun Item(imageItem: APOD) {
+fun ApodListItem(apod: Apod, onItemClick: (Apod) -> Unit) {
     Row(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.secondaryContainer)
             .border(BorderStroke(2.dp, MaterialTheme.colorScheme.primaryContainer))
             .padding(5.dp)
             .fillMaxWidth()
+            .clickable { onItemClick(apod) }
             .wrapContentHeight(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         SubcomposeAsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(imageItem.url)
+                .data(apod.url)
                 .crossfade(true)
                 .build(),
             modifier = Modifier
@@ -64,7 +68,7 @@ fun Item(imageItem: APOD) {
                 .border(BorderStroke(2.dp, Color.Black)),
         ) {
             Text(
-                text = imageItem.title,
+                text = apod.title,
                 color = MaterialTheme.colorScheme.secondary,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold
@@ -76,13 +80,13 @@ fun Item(imageItem: APOD) {
             )
             {
                 Text(
-                    text = imageItem.mediaType,
+                    text = apod.copyright ?: "copyright free",
                     color = MaterialTheme.colorScheme.secondary,
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Normal
                 )
                 Text(
-                    text = imageItem.date.format(DateTimeFormatter.ISO_DATE),
+                    text = apod.date.format(DateTimeFormatter.ISO_DATE),
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Normal
@@ -90,10 +94,4 @@ fun Item(imageItem: APOD) {
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun Item() {
-    Item(TestingAPODRepo().getDefaultAPODs()[0])
 }
