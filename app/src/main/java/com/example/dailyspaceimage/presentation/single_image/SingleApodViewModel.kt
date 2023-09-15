@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.onEach
 import java.time.LocalDate
 
 class SingleApodViewModel(
-    private val getLatestApodUC: GetSingleApodUC,
+    private val getSingleApodUC: GetSingleApodUC,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -26,8 +26,8 @@ class SingleApodViewModel(
         }
     }
 
-    private fun getApod(endDate: LocalDate) {
-        getLatestApodUC(endDate).onEach { resource ->
+    private fun getApod(date: LocalDate) {
+        getSingleApodUC(date).onEach { resource ->
             when (resource) {
                 is Resource.Success -> {
                     _state.value = SingleApodState(apod = resource.data)

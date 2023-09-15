@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.unit.dp
+import com.example.dailyspaceimage.data.remote.dto.toApod
 import com.example.dailyspaceimage.repo.TestingAPODRepo
 import com.example.dailyspaceimage.presentation.theme.DailySpaceImageTheme
-import com.example.dailyspaceimage.presentation.image_list.components.Item
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     verticalArrangement = Arrangement.spacedBy(7.dp)
                 ) {
                     items(items = testingData) {apod ->
-                        Item(apod)
+                        apod.toApod()
                     }
                 }
             }
