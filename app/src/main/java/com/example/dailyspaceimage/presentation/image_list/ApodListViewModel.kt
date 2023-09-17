@@ -4,13 +4,16 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.dailyspaceimage.ApodApplication
 import com.example.dailyspaceimage.common.Constants
 import com.example.dailyspaceimage.common.Resource
 import com.example.dailyspaceimage.domain.use_case.get_apods.GetApodsUC
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
 class ApodListViewModel(
     private val getApodsUC: GetApodsUC,
@@ -43,5 +46,20 @@ class ApodListViewModel(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+}
+
+class ApodListViewModelFactory: ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+
+        return ApodListViewModel(
+            GetApodsUC(ApodApplication.appModule.apodRepository),
+            SavedStateHandle(
+                mapOf(
+                    Constants.PARAM_END_DATE to LocalDate.now(),
+                    Constants.PARAM_START_DATE to LocalDate.now().minus(10, ChronoUnit.DAYS)
+                )
+            )
+        ) as T
     }
 }

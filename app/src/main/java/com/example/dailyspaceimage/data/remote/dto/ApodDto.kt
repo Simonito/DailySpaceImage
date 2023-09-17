@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import java.time.LocalDate
 
 data class ApodDto(
-    val date: LocalDate,
+    val date: String,
     val explanation: String,
     @SerializedName("hdurl")
     val hdUrl: String,
@@ -16,12 +16,8 @@ data class ApodDto(
     val serviceVersion: String,
     val title: String,
     val copyright: String? = ""
-) {
-    constructor(date: String, explanation: String, hdUrl: String, url: String, mediaType: String,
-        serviceVersion: String, title: String) :
-            this(LocalDate.parse(date), explanation, hdUrl, url, mediaType, serviceVersion, title)
-}
+)
 
 fun ApodDto.toApod(): Apod {
-    return Apod(date, explanation, url, title, copyright)
+    return Apod(LocalDate.parse(date), explanation, url, title, copyright)
 }

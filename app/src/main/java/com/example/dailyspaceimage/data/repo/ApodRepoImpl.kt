@@ -18,10 +18,10 @@ class ApodRepoImpl(
         )
     }
 
-    override suspend fun getSingleApod(endDate: LocalDate): ApodDto {
+    override suspend fun getSingleApod(date: LocalDate): ApodDto {
         return api.getSingleApod(
             apiKey = Constants.API_KEY,
-            endDate = endDate.format(DateTimeFormatter.ISO_DATE)
+            date = date.format(DateTimeFormatter.ISO_DATE)
         )
     }
 }

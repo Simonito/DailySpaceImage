@@ -13,10 +13,10 @@ import java.time.LocalDate
 class GetSingleApodUC(
     private val repository: ApodRepo
 ) {
-    operator fun invoke(endDate: LocalDate): Flow<Resource<Apod>> = flow {
+    operator fun invoke(date: LocalDate): Flow<Resource<Apod>> = flow {
         try {
             emit(Resource.Loading())
-            val apod = repository.getSingleApod(endDate).toApod()
+            val apod = repository.getSingleApod(date).toApod()
             emit(Resource.Success(apod))
         } catch(e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error occured"))

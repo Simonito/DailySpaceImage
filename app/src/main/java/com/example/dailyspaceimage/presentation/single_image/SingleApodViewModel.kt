@@ -4,7 +4,9 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.dailyspaceimage.ApodApplication
 import com.example.dailyspaceimage.common.Constants
 import com.example.dailyspaceimage.common.Resource
 import com.example.dailyspaceimage.domain.use_case.get_single_apod.GetSingleApodUC
@@ -41,5 +43,18 @@ class SingleApodViewModel(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+}
+
+class SingleApodViewModelFactory: ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return SingleApodViewModel(
+            GetSingleApodUC(ApodApplication.appModule.apodRepository),
+            SavedStateHandle(
+                mapOf(
+                    Constants.PARAM_DATE to LocalDate.now()
+                )
+            )
+        ) as T
     }
 }

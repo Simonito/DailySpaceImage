@@ -1,5 +1,6 @@
 package com.example.dailyspaceimage.presentation.image_list
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,6 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.dailyspaceimage.presentation.Screen
 import com.example.dailyspaceimage.presentation.image_list.components.ApodListItem
+import java.time.format.DateTimeFormatter
+import java.util.Date
 
 @Composable
 fun ApodListScreen(
@@ -31,7 +34,14 @@ fun ApodListScreen(
             contentPadding = PaddingValues(all = 5.dp),
             verticalArrangement = Arrangement.spacedBy(7.dp)
         ) {
+            Log.i("DATE LIST INFO",
+                viewModel.state.value
+                    .apods
+                    .map { a ->
+                        a.date.format(DateTimeFormatter.ISO_DATE)}.toString()
+            )
             items(items = viewModel.state.value.apods) {apod ->
+                Log.i("DATE INFO", apod.date.format(DateTimeFormatter.ISO_DATE))
                 ApodListItem(
                     apod = apod,
                     onItemClick = {

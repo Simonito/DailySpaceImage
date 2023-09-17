@@ -16,7 +16,9 @@ class GetApodsUC(
     operator fun invoke(startDate: LocalDate, endDate: LocalDate): Flow<Resource<List<Apod>>> = flow {
         try {
             emit(Resource.Loading())
-            val apods = repository.getApods(startDate, endDate).map { it.toApod() }
+            val apods = repository.getApods(startDate, endDate)
+                .map { it.toApod() }
+                .sortedByDescending { it.date }
             emit(Resource.Success(apods))
         } catch(e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error occured"))
