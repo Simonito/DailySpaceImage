@@ -52,6 +52,10 @@ class SingleApodViewModelFactory: ViewModelProvider.Factory {
             GetSingleApodUC(ApodApplication.appModule.apodRepository),
             SavedStateHandle(
                 mapOf(
+                    /* FIXME: implement some sort of API call to an online NTP server
+                     *  by which we will make sure that the date is correct
+                     *  this is applicable to the ApodListViewModel as well,
+                     *  so a universal implementation is needed */
                     Constants.PARAM_DATE to LocalDate.now()
                 )
             )

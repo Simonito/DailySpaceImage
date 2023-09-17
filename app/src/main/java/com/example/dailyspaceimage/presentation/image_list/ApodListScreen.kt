@@ -21,7 +21,6 @@ import androidx.navigation.NavController
 import com.example.dailyspaceimage.presentation.Screen
 import com.example.dailyspaceimage.presentation.image_list.components.ApodListItem
 import java.time.format.DateTimeFormatter
-import java.util.Date
 
 @Composable
 fun ApodListScreen(

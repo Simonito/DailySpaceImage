@@ -1,6 +1,5 @@
 package com.example.dailyspaceimage.presentation.image_list.components
 
-import android.text.style.ClickableSpan
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -24,13 +23,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
-import com.example.dailyspaceimage.data.remote.dto.toApod
 import com.example.dailyspaceimage.domain.model.Apod
-import com.example.dailyspaceimage.repo.TestingAPODRepo
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -46,6 +42,7 @@ fun ApodListItem(apod: Apod, onItemClick: (Apod) -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
+        /* FIXME: rework the image to have a more unified UI by scaling or cropping the images */
         SubcomposeAsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(apod.url)
@@ -67,6 +64,10 @@ fun ApodListItem(apod: Apod, onItemClick: (Apod) -> Unit) {
                 .fillMaxHeight()
                 .border(BorderStroke(2.dp, Color.Black)),
         ) {
+            /* FIXME: the Text elements representing the title, copyright and date may also disturb
+             *  the uniformity of our UI. Consider constraining the length of these
+             *  (cutting off the lengthy ends), but introduce an option to display the full content
+             *  of the Text element */
             Text(
                 text = apod.title,
                 color = MaterialTheme.colorScheme.secondary,
