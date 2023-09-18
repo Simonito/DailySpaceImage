@@ -30,8 +30,8 @@ fun ApodListScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(all = 5.dp),
-            verticalArrangement = Arrangement.spacedBy(7.dp)
+            contentPadding = PaddingValues(all = 13.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Log.i("DATE LIST INFO",
                 viewModel.state.value

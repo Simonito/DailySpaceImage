@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -33,14 +32,16 @@ import java.time.format.DateTimeFormatter
 fun ApodListItem(apod: Apod, onItemClick: (Apod) -> Unit) {
     Row(
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.secondaryContainer)
-            .border(BorderStroke(2.dp, MaterialTheme.colorScheme.primaryContainer))
-            .padding(5.dp)
+            .background(
+                MaterialTheme.colorScheme.primaryContainer,
+                shape = RoundedCornerShape(10.dp)
+            )
+            .padding(10.dp)
             .fillMaxWidth()
             .clickable { onItemClick(apod) }
             .wrapContentHeight(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        horizontalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         /* FIXME: rework the image to have a more unified UI by scaling or cropping the images */
         SubcomposeAsyncImage(
@@ -49,7 +50,6 @@ fun ApodListItem(apod: Apod, onItemClick: (Apod) -> Unit) {
                 .crossfade(true)
                 .build(),
             modifier = Modifier
-                .border(BorderStroke(2.dp, Color.Black))
                 .clip(RoundedCornerShape(10.dp))
                 .fillMaxWidth(0.3f),
             contentScale = ContentScale.FillHeight,
@@ -62,7 +62,6 @@ fun ApodListItem(apod: Apod, onItemClick: (Apod) -> Unit) {
             verticalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier
                 .fillMaxHeight()
-                .border(BorderStroke(2.dp, Color.Black)),
         ) {
             /* FIXME: the Text elements representing the title, copyright and date may also disturb
              *  the uniformity of our UI. Consider constraining the length of these
@@ -70,7 +69,7 @@ fun ApodListItem(apod: Apod, onItemClick: (Apod) -> Unit) {
              *  of the Text element */
             Text(
                 text = apod.title,
-                color = MaterialTheme.colorScheme.secondary,
+                color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold
             )
@@ -82,13 +81,13 @@ fun ApodListItem(apod: Apod, onItemClick: (Apod) -> Unit) {
             {
                 Text(
                     text = apod.copyright ?: "copyright free",
-                    color = MaterialTheme.colorScheme.secondary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Normal
                 )
                 Text(
                     text = apod.date.format(DateTimeFormatter.ISO_DATE),
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Normal
                 )
