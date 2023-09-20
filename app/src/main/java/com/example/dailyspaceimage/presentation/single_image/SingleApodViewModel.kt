@@ -6,6 +6,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.dailyspaceimage.ApodApplication
 import com.example.dailyspaceimage.common.Constants
 import com.example.dailyspaceimage.common.Resource
@@ -23,7 +25,7 @@ class SingleApodViewModel(
     val state: State<SingleApodState> = _state
 
     init {
-        savedStateHandle.get<LocalDate>(Constants.PARAM_END_DATE)?. let { endDate ->
+        savedStateHandle.get<LocalDate>(Constants.PARAM_DATE)?. let { endDate ->
             getApod(endDate)
         }
     }
@@ -44,21 +46,14 @@ class SingleApodViewModel(
             }
         }.launchIn(viewModelScope)
     }
-}
 
-class SingleApodViewModelFactory: ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return SingleApodViewModel(
-            GetSingleApodUC(ApodApplication.appModule.apodRepository),
-            SavedStateHandle(
-                mapOf(
-                    /* FIXME: implement some sort of API call to an online NTP server
-                     *  by which we will make sure that the date is correct
-                     *  this is applicable to the ApodListViewModel as well,
-                     *  so a universal implementation is needed */
-                    Constants.PARAM_DATE to LocalDate.now()
-                )
-            )
-        ) as T
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val getSingleApodUC = GetSingleApodUC(ApodApplication.appModule.apodRepository)
+                val savedStateHandle = ApodApplication.appModule.apodDateStateHandle
+                SingleApodViewModel(getSingleApodUC = getSingleApodUC, savedStateHandle = savedStateHandle)
+            }
+        }
     }
 }

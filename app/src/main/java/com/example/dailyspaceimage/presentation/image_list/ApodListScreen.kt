@@ -16,8 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.dailyspaceimage.ApodApplication
+import com.example.dailyspaceimage.common.Constants
 import com.example.dailyspaceimage.presentation.Screen
 import com.example.dailyspaceimage.presentation.image_list.components.ApodListItem
 import java.time.format.DateTimeFormatter
@@ -44,6 +47,8 @@ fun ApodListScreen(
                 ApodListItem(
                     apod = apod,
                     onItemClick = {
+                        // modify the date parameter for the getSingleApod use case
+                        ApodApplication.appModule.apodDateStateHandle.set(Constants.PARAM_DATE, apod.date)
                         navController.navigate(Screen.SingleApodScreen.route + "/${apod.date}")
                     }
                 )

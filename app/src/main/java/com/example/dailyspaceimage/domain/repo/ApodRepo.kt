@@ -11,4 +11,6 @@ interface ApodRepo {
     suspend fun getApods(startDate: LocalDate, endDate: LocalDate): List<ApodDto>
 
     suspend fun getSingleApod(date: LocalDate): ApodDto
+
+    suspend fun getLatestApod(): ApodDto
 }

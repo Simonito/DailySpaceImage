@@ -10,9 +10,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.dailyspaceimage.presentation.image_list.ApodListScreen
-import com.example.dailyspaceimage.presentation.image_list.ApodListViewModelFactory
+import com.example.dailyspaceimage.presentation.image_list.ApodListViewModel
 import com.example.dailyspaceimage.presentation.single_image.SingleApodScreen
-import com.example.dailyspaceimage.presentation.single_image.SingleApodViewModelFactory
+import com.example.dailyspaceimage.presentation.single_image.SingleApodViewModel
 import com.example.dailyspaceimage.presentation.theme.DailySpaceImageTheme
 
 class MainActivity : ComponentActivity() {
@@ -31,30 +31,19 @@ class MainActivity : ComponentActivity() {
                         ) {
                             ApodListScreen(
                                 navController,
-                                viewModel(factory = ApodListViewModelFactory())
+                                viewModel(factory = ApodListViewModel.Factory)
                             )
                         }
                         composable(
-                            route = Screen.SingleApodScreen.route + "/{coinId}"
+                            route = Screen.SingleApodScreen.route + "/{apodDate}"
                         ) {
                             SingleApodScreen(
                                 navController,
-                                viewModel(factory = SingleApodViewModelFactory())
+                                viewModel(factory = SingleApodViewModel.Factory)
                             )
                         }
                     }
                 }
-//                val repo = TestingAPODRepo()
-//                val testingData = repo.getDefaultAPODs()
-//
-//                LazyColumn(
-//                    contentPadding = PaddingValues(all = 5.dp),
-//                    verticalArrangement = Arrangement.spacedBy(7.dp)
-//                ) {
-//                    items(items = testingData) {apod ->
-//                        ApodListItem(apod.toApod()) { apod.toApod() }
-//                    }
-//                }
             }
         }
     }

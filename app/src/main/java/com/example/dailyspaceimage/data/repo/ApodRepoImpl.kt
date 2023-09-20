@@ -24,4 +24,10 @@ class ApodRepoImpl(
             date = date.format(DateTimeFormatter.ISO_DATE)
         )
     }
+
+    override suspend fun getLatestApod(): ApodDto {
+        return api.getLatestApod(
+            apiKey = Constants.API_KEY
+        )
+    }
 }

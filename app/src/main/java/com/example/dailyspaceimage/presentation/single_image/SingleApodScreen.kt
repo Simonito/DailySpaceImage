@@ -20,7 +20,6 @@ import androidx.navigation.NavController
 import com.example.dailyspaceimage.presentation.Screen
 import com.example.dailyspaceimage.presentation.image_list.components.ApodListItem
 
-/* FIXME: A complete rewok of this is needed as it does not work at all */
 @Composable
 fun SingleApodScreen(
     navController: NavController,

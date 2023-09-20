@@ -16,4 +16,7 @@ interface ApodApi {
     suspend fun getSingleApod(
         @Query("api_key") apiKey: String,
         @Query(Constants.PARAM_DATE) date: String): ApodDto
+
+    @GET("/planetary/apod")
+    suspend fun getLatestApod(@Query("api_key") apiKey: String): ApodDto
 }
