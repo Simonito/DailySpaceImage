@@ -52,7 +52,9 @@ class SingleApodViewModel(
             initializer {
                 val getSingleApodUC = GetSingleApodUC(ApodApplication.appModule.apodRepository)
                 val savedStateHandle = ApodApplication.appModule.apodDateStateHandle
-                SingleApodViewModel(getSingleApodUC = getSingleApodUC, savedStateHandle = savedStateHandle)
+                SingleApodViewModel(
+                    getSingleApodUC = getSingleApodUC,
+                    savedStateHandle = savedStateHandle)
             }
         }
     }

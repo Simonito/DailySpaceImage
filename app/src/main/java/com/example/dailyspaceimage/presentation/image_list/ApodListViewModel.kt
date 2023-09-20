@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -61,7 +60,9 @@ class ApodListViewModel(
             initializer {
                 val getApodsUC = GetApodsUC(ApodApplication.appModule.apodRepository)
                 val savedStateHandle = ApodApplication.appModule.apodDateStateHandle
-                ApodListViewModel(getApodsUC = getApodsUC, savedStateHandle = savedStateHandle)
+                ApodListViewModel(
+                    getApodsUC = getApodsUC,
+                    savedStateHandle = savedStateHandle)
             }
         }
     }
