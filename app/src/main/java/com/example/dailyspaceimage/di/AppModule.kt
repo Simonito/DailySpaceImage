@@ -9,8 +9,6 @@ import com.example.dailyspaceimage.domain.repo.ApodRepo
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
-import java.time.LocalDate
-import java.time.temporal.ChronoUnit
 
 interface AppModule {
     val apodApi: ApodApi
@@ -34,15 +32,6 @@ class AppModuleImpl(
     }
 
     override val apodDateStateHandle: SavedStateHandle by lazy {
-        SavedStateHandle(
-            mapOf(
-                /* FIXME: implement some sort of API call to an online NTP server
-                 *  by which we will make sure that the date is correct
-                 *  this is applicable to the ApodListViewModel as well,
-                 *  so a universal implementation is needed */
-                Constants.PARAM_END_DATE to LocalDate.now(),
-                Constants.PARAM_START_DATE to LocalDate.now().minus(10, ChronoUnit.DAYS)
-            )
-        )
+        SavedStateHandle()
     }
 }

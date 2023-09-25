@@ -9,13 +9,13 @@ interface ApodApi {
     @GET("/planetary/apod")
     suspend fun getApods(
         @Query("api_key") apiKey: String,
-        @Query(Constants.PARAM_END_DATE) endDate: String,
-        @Query(Constants.PARAM_START_DATE) startDate: String): List<ApodDto>
+        @Query(Constants.Dates.END) endDate: String,
+        @Query(Constants.Dates.START) startDate: String): List<ApodDto>
 
     @GET("/planetary/apod")
     suspend fun getSingleApod(
         @Query("api_key") apiKey: String,
-        @Query(Constants.PARAM_DATE) date: String): ApodDto
+        @Query(Constants.Dates.PARTICULAR) date: String): ApodDto
 
     @GET("/planetary/apod")
     suspend fun getLatestApod(@Query("api_key") apiKey: String): ApodDto

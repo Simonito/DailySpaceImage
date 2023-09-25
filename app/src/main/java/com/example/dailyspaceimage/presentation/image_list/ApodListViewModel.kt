@@ -12,6 +12,7 @@ import com.example.dailyspaceimage.ApodApplication
 import com.example.dailyspaceimage.common.Constants
 import com.example.dailyspaceimage.common.Resource
 import com.example.dailyspaceimage.domain.use_case.get_apods.GetApodsUC
+import com.example.dailyspaceimage.domain.use_case.get_latest_apod.GetLatestApodUC
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.time.LocalDate
@@ -26,16 +27,13 @@ class ApodListViewModel(
     val state: State<ApodListState> = _state
 
     init {
+        fetchLatestApodDate(true)
         this.savedStateHandle = savedStateHandle
-        val startDate = savedStateHandle.get<LocalDate>(Constants.PARAM_START_DATE)
-        val endDate = savedStateHandle.get<LocalDate>(Constants.PARAM_END_DATE)
+        val startDate = savedStateHandle.get<LocalDate>(Constants.Dates.START)
+        val endDate = savedStateHandle.get<LocalDate>(Constants.Dates.END)
         if (startDate != null && endDate != null) {
             getApods(startDate = startDate, endDate = endDate)
         }
-    }
-
-    fun currentDate(date: LocalDate) {
-        this.savedStateHandle.set(Constants.PARAM_DATE, date)
     }
 
     private fun getApods(startDate: LocalDate, endDate: LocalDate) {
@@ -50,6 +48,33 @@ class ApodListViewModel(
                 }
                 is Resource.Loading -> {
                     _state.value = ApodListState(isLoading = true)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun fetchLatestApodDate(shouldUpdateDates: Boolean) {
+        val savedStateHandle = ApodApplication.appModule.apodDateStateHandle
+        val latestApodFlow = GetLatestApodUC(ApodApplication.appModule.apodRepository)()
+        latestApodFlow.onEach { resource ->
+            when (resource) {
+                is Resource.Success -> {
+                    val date = resource.data?.date ?: LocalDate.now()
+                    savedStateHandle.set(Constants.Dates.LATEST, date)
+                    // update start and end dates if necessary
+                    if (shouldUpdateDates) {
+                        savedStateHandle.set(Constants.Dates.END, date)
+                        savedStateHandle.set(Constants.Dates.START, date.minusDays(10))
+                    }
+                }
+                else -> {
+                    val date = LocalDate.now()
+                    savedStateHandle.set(Constants.Dates.LATEST, date)
+                    // update start and end dates if necessary
+                    if (shouldUpdateDates) {
+                        savedStateHandle.set(Constants.Dates.END, date)
+                        savedStateHandle.set(Constants.Dates.START, date.minusDays(10))
+                    }
                 }
             }
         }.launchIn(viewModelScope)

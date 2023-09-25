@@ -25,7 +25,7 @@ class SingleApodViewModel(
     val state: State<SingleApodState> = _state
 
     init {
-        savedStateHandle.get<LocalDate>(Constants.PARAM_DATE)?. let { endDate ->
+        savedStateHandle.get<LocalDate>(Constants.Dates.PARTICULAR)?. let { endDate ->
             getApod(endDate)
         }
     }

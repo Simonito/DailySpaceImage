@@ -40,10 +40,11 @@ private val LightColorScheme = lightColorScheme(
 
 private val CustomDarkColorScheme = darkColorScheme(
     primary = ColorPrimary,
+    onPrimary = TextWhite,
     background = BlackBackground,
     onBackground = TextWhite,
     primaryContainer = GreyBackground,
-    onPrimary = TextNude
+    onPrimaryContainer = TextNude
 )
 
 @Composable
